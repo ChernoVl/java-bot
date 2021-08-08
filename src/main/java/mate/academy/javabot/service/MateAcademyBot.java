@@ -3,6 +3,7 @@ package mate.academy.javabot.service;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -20,13 +21,19 @@ public class MateAcademyBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println("Message received " + update.getMessage().getText());
+        Message message = update.getMessage();
+        System.out.println("Message received " + message.getText());
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setText("Hello user! I received your message: " + update.getMessage().getText());
-        sendMessage.setChatId(String.valueOf(update.getMessage().getChatId())); // to which user (dialogue) the message will be sent
+        sendMessage.setText("Hello user! I received your message: " + message.getText());
+        sendMessage.setChatId(String.valueOf(message.getChatId())); // to which user (dialogue) the message will be sent
 
-        if(update.getMessage().getText().equals("breakfast")){
-            sendMessage.setText("Breakfast menu");
+        if(message.getText().equals("breakfast")){
+            StringBuilder menu = new StringBuilder("Breakfast menu\n");
+            menu.append("1. Blueberry-Banana-Nut Smoothie\n");
+            menu.append("2. Classic Omelet and Greens\n");
+            menu.append("3. Curry-Avocado Crispy Egg Toast\n");
+
+            sendMessage.setText(menu.toString());
         }
 
         try {
