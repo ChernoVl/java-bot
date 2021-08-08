@@ -24,6 +24,11 @@ public class MateAcademyBot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText("Hello user! I received your message: " + update.getMessage().getText());
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId())); // to which user (dialogue) the message will be sent
+
+        if(update.getMessage().getText().equals("breakfast")){
+            sendMessage.setText("Breakfast menu");
+        }
+
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
