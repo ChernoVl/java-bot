@@ -5,7 +5,12 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class MateAcademyBot extends TelegramLongPollingBot {
@@ -29,13 +34,12 @@ public class MateAcademyBot extends TelegramLongPollingBot {
 
         if (message.getText().equals("/start")) {
             StringBuilder text = new StringBuilder();
-            text
-                    .append("Welcome to Recipe Bot! Please pass the meal of the day!\n")
-                    .append("Possible options are:\n")
-                    .append("breakfast\n")
-                    .append("dinner\n")
-                    .append("lunch\n")
-                    .append("supper\n");
+            text.append("Welcome to Recipe Bot! Please choose the meal of the day!\n");
+
+            sendMessage.enableMarkdown(true);
+            ReplyKeyboardMarkup keyboardMarkup = getMenuKeyboard();
+            sendMessage.setReplyMarkup(keyboardMarkup);
+
             sendMessage.setText(text.toString());
         }
 
@@ -72,5 +76,31 @@ public class MateAcademyBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    private ReplyKeyboardMarkup getMenuKeyboard(){
+        // ReplyKeyboardMarkup
+        // a set of buttons that will be displayed in the telegram.
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        List<KeyboardRow> keyboardRows = new ArrayList<>();
+
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add("breakfast");
+        keyboardRow.add("dinner");
+
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        keyboardSecondRow.add("lunch");
+        keyboardSecondRow.add("supper");
+
+        keyboardRows.add(keyboardRow);
+        keyboardRows.add(keyboardSecondRow);
+
+        replyKeyboardMarkup.setKeyboard(keyboardRows);
+
+        return replyKeyboardMarkup;
     }
 }
