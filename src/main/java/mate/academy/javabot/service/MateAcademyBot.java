@@ -18,6 +18,6 @@ public class MateAcademyBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println("Message received");
+        System.out.println("Message received " + update.getMessage().getText());
     }
 }
