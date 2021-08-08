@@ -27,13 +27,44 @@ public class MateAcademyBot extends TelegramLongPollingBot {
         sendMessage.setText("Hello user! I received your message: " + message.getText());
         sendMessage.setChatId(String.valueOf(message.getChatId())); // to which user (dialogue) the message will be sent
 
-        if(message.getText().equals("breakfast")){
+        if (message.getText().equals("/start")) {
+            StringBuilder text = new StringBuilder();
+            text
+                    .append("Welcome to Recipe Bot! Please pass the meal of the day!\n")
+                    .append("Possible options are:\n")
+                    .append("breakfast\n")
+                    .append("dinner\n")
+                    .append("lunch\n")
+                    .append("supper\n");
+            sendMessage.setText(text.toString());
+        }
+
+        if (message.getText().equals("breakfast")) {
             StringBuilder menu = new StringBuilder("Breakfast menu\n");
             menu.append("1. Blueberry-Banana-Nut Smoothie\n");
             menu.append("2. Classic Omelet and Greens\n");
             menu.append("3. Curry-Avocado Crispy Egg Toast\n");
 
             sendMessage.setText(menu.toString());
+        }
+
+        if (message.getText().equals("dinner")) {
+            StringBuilder menu = new StringBuilder("Dinner menu\n");
+            menu.append("1. Creamy Lemon Chicken Pasta\n");
+            menu.append("2. Turkey Takos\n");
+            menu.append("3. Vegetarian Lasagna\n");
+
+            sendMessage.setText(menu.toString());
+        }
+
+        if (message.getText().equals("lunch")) {
+            StringBuilder text = new StringBuilder("Lunch menu is in progress...\n");
+            sendMessage.setText(text.toString());
+        }
+
+        if (message.getText().equals("supper")) {
+            StringBuilder text = new StringBuilder("Supper menu is in progress...\n");
+            sendMessage.setText(text.toString());
         }
 
         try {
